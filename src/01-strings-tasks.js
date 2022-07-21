@@ -210,8 +210,23 @@ function extractEmails(str) {
  *             '└──────────┘\n'
  *
  */
-function getRectangleString(/* width, height */) {
-  throw new Error('Not implemented');
+function getRectangleString(width, height) {
+  const lu = '┌';
+  const ru = '┐\n';
+  const ld = '└';
+  const rd = '┘\n';
+  const w = '─';
+  const d = '│';
+  const dr = '│\n';
+  const space = ' ';
+  let result = '';
+
+  for (let i = 1; i <= height; i += 1) {
+    if (i === 1) result += lu + w.repeat(width - 2) + ru;
+    else if (i === height) result += ld + w.repeat(width - 2) + rd;
+    else result += d + space.repeat(width - 2) + dr;
+  }
+  return result;
 }
 
 
@@ -231,8 +246,17 @@ function getRectangleString(/* width, height */) {
  *    => 'NOPQRSTUVWXYZABCDEFGHIJKLMnopqrstuvwxyzabcdefghijklm'
  *
  */
-function encodeToRot13(/* str */) {
-  throw new Error('Not implemented');
+function encodeToRot13(str) {
+  const alfabetic = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+  const alfabeticRot13 = 'NOPQRSTUVWXYZABCDEFGHIJKLMnopqrstuvwxyzabcdefghijklm'.split('');
+  const resultArray = [];
+  const strArray = str.split('');
+  strArray.forEach((i) => {
+    if (alfabetic.indexOf(i) > -1) {
+      resultArray.push(alfabeticRot13[alfabetic.indexOf(i)]);
+    } else resultArray.push(i);
+  });
+  return resultArray.join('');
 }
 
 /**
@@ -248,8 +272,9 @@ function encodeToRot13(/* str */) {
  *   isString('test') => true
  *   isString(new String('test')) => true
  */
-function isString(/* value */) {
-  throw new Error('Not implemented');
+function isString(value) {
+  if (typeof value === 'string' || value instanceof String) return true;
+  return false;
 }
 
 
@@ -277,8 +302,21 @@ function isString(/* value */) {
  *   'Q♠' => 50
  *   'K♠' => 51
  */
-function getCardId(/* value */) {
-  throw new Error('Not implemented');
+function getCardId(value) {
+  const arrayCard = [
+    'A♣', '2♣', '3♣', '4♣', '5♣', '6♣', '7♣', '8♣', '9♣', '10♣', 'J♣', 'Q♣', 'K♣',
+    'A♦', '2♦', '3♦', '4♦', '5♦', '6♦', '7♦', '8♦', '9♦', '10♦', 'J♦', 'Q♦', 'K♦',
+    'A♥', '2♥', '3♥', '4♥', '5♥', '6♥', '7♥', '8♥', '9♥', '10♥', 'J♥', 'Q♥', 'K♥',
+    'A♠', '2♠', '3♠', '4♠', '5♠', '6♠', '7♠', '8♠', '9♠', '10♠', 'J♠', 'Q♠', 'K♠',
+  ];
+  let result;
+  for (let i = 0; i < 52; i += 1) {
+    if (value === arrayCard[i]) {
+      result = i;
+      break;
+    }
+  }
+  return result;
 }
 
 
