@@ -535,8 +535,17 @@ function sortCitiesArray(arr) {
  *           [0,0,0,1,0],
  *           [0,0,0,0,1]]
  */
-function getIdentityMatrix(/* n */) {
-  throw new Error('Not implemented');
+function getIdentityMatrix(n) {
+  const arr = Array.from({ length: n }, (v, k) => k);
+  const arrResult = [];
+  arr.map((item, index) => {
+    arrResult.push(Array.from({ length: n }, (v, k) => {
+      if (k === index) return 1;
+      return 0;
+    }));
+    return 0;
+  });
+  return arrResult;
 }
 
 /**
@@ -552,8 +561,14 @@ function getIdentityMatrix(/* n */) {
  *     0, 100 => [ 0, 1, 2, ..., 100 ]
  *     3, 3   => [ 3 ]
  */
-function getIntervalArray(/* start, end */) {
-  throw new Error('Not implemented');
+function getIntervalArray(start, end) {
+  let len = start + end - 1;
+  if (start <= 0) {
+    len = Math.abs(start) + Math.abs(end) + 1;
+  } if (start === end) {
+    len = 1;
+  }
+  return Array.from({ length: len }, (v, k) => k + start);
 }
 
 /**
@@ -567,8 +582,10 @@ function getIntervalArray(/* start, end */) {
  *   [ 'a', 'a', 'a', 'a' ]  => [ 'a' ]
  *   [ 1, 1, 2, 2, 3, 3, 4, 4] => [ 1, 2, 3, 4]
  */
-function distinct(/* arr */) {
-  throw new Error('Not implemented');
+function distinct(arr) {
+  const set = new Set();
+  arr.map((item) => set.add(item));
+  return Array.from(set);
 }
 
 /**
@@ -601,8 +618,17 @@ function distinct(/* arr */) {
  *    "Poland" => ["Lodz"]
  *   }
  */
-function group(/* array, keySelector, valueSelector */) {
-  throw new Error('Not implemented');
+function group(array, keySelector, valueSelector) {
+  const map = new Map();
+  array.map((item) => {
+    if (map.has(keySelector(item))) {
+      const valueArr = Array.from(map.get(keySelector(item)));
+      valueArr.push(valueSelector(item));
+      map.set(keySelector(item), valueArr);
+    } else map.set(keySelector(item), [valueSelector(item)]);
+    return 0;
+  });
+  return map;
 }
 
 
@@ -619,8 +645,8 @@ function group(/* array, keySelector, valueSelector */) {
  *   [[1, 2], [3, 4], [5, 6]], (x) => x     =>   [ 1, 2, 3, 4, 5, 6 ]
  *   ['one','two','three'], x=>x.split('')  =>   ['o','n','e','t','w','o','t','h','r','e','e']
  */
-function selectMany(/* arr, childrenSelector */) {
-  throw new Error('Not implemented');
+function selectMany(arr, childrenSelector) {
+  return arr.map((item) => childrenSelector(item)).flat();
 }
 
 
@@ -636,8 +662,8 @@ function selectMany(/* arr, childrenSelector */) {
  *   ['one','two','three'], [2]       => 'three'  (arr[2])
  *   [[[ 1, 2, 3]]], [ 0, 0, 1 ]      => 2        (arr[0][0][1])
  */
-function getElementByIndexes(/* arr, indexes */) {
-  throw new Error('Not implemented');
+function getElementByIndexes(arr, indexes) {
+  return arr.flat(indexes.length)[indexes.pop()];
 }
 
 
@@ -659,8 +685,21 @@ function getElementByIndexes(/* arr, indexes */) {
  *   [ 1, 2, 3, 4, 5, 6, 7, 8 ]   =>  [ 5, 6, 7, 8, 1, 2, 3, 4 ]
  *
  */
-function swapHeadAndTail(/* arr */) {
-  throw new Error('Not implemented');
+function swapHeadAndTail(arr) {
+  if (arr.length === 1) return arr;
+  let secondArr;
+  let resultArr;
+  const end = Math.round(arr.length / 2);
+  const firstArr = arr.slice(0, arr.length / 2);
+  if (arr.length === 2 || arr.length % 2 === 0) {
+    secondArr = arr.slice(end);
+  } else secondArr = arr.slice(arr.length / 2 + 1);
+  if (arr.length % 2 > 0) {
+    resultArr = secondArr.concat(firstArr);
+    resultArr.splice(arr.length / 2, 0, arr[end - 1]);
+    return resultArr;
+  }
+  return secondArr.concat(firstArr);
 }
 
 
