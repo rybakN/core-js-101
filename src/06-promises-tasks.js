@@ -53,18 +53,20 @@ function willYouMarryMe(isPositiveAnswer) {
  *    })
  *
  */
-function processAllPromises(/* array */) {
-  throw new Error('Not implemented');
-  // return new Promise((resolve) => {
-  //   resolve(
-  //     array.filter((current) => {
-  //       current.then((res) => {
-  //         if (typeof res === 'bigint' || typeof res === 'boolean' || typeof res === 'number'
-  // || typeof res === 'string' || typeof res === 'undefined')
-  //       });
-  //     }),
-  //   );
-  // });
+function processAllPromises(array) {
+  const resultArray = [];
+  array.map((current) => {
+    current.then((res) => {
+      if (typeof res === 'bigint' || typeof res === 'boolean' || typeof res === 'number'
+        || typeof res === 'string' || res === 'undefined' || res === 'null' || typeof res === 'symbol') {
+        resultArray.push(res);
+      } return false;
+    });
+    return 0;
+  });
+  return new Promise((resolve) => {
+    resolve(resultArray);
+  });
 }
 
 /**
@@ -86,8 +88,8 @@ function processAllPromises(/* array */) {
  *    })
  *
  */
-function getFastestPromise(/* array */) {
-  throw new Error('Not implemented');
+function getFastestPromise(array) {
+  return Promise.race(array);
 }
 
 /**
@@ -107,8 +109,18 @@ function getFastestPromise(/* array */) {
  *    });
  *
  */
-function chainPromises(/* array, action */) {
-  throw new Error('Not implemented');
+async function chainPromises(array, action) {
+  const resultArray = [];
+  await array.map((current) => {
+    current.then((res) => {
+      resultArray.push(res);
+    }, () => 0);
+    return 0;
+  });
+  const result = resultArray.reduce((prev, current) => action(prev, current));
+  return new Promise((resolve) => {
+    resolve(result);
+  });
 }
 
 module.exports = {
