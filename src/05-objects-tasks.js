@@ -54,16 +54,10 @@ function getJSON(obj) {
  *    const r = fromJSON(Circle.prototype, '{"radius":10}');
  *
  */
-function fromJSON(/* proto, json */) {
-  throw new Error('Not implemented');
-  // const object = JSON.parse(json);
-  // const arr = Object.entries(object);
-  // const result = Object.create(proto);
-  // arr.map((curr) => {
-  //   Object.defineProperty(proto, curr[0], { value: curr[1] });
-  //   return 0;
-  // });
-  // return proto;
+function fromJSON(proto, json) {
+  const jsonObj = JSON.parse(json);
+  const value = Object.values(jsonObj);
+  return new proto.constructor(...value);
 }
 
 
